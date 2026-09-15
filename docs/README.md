@@ -6,6 +6,8 @@
 
 - `project-overview.md` — цель, продукт и границы тестирования;
 - `requirements.md` — проверяемые требования;
+- `documentation.md` - документация;
+- `open-questions.md` — открытые вопросы к требованиям;
 - `test-strategy.md` — уровни, виды и подход к тестированию;
 - `traceability-matrix.md` — связь требований с тест-кейсами и автотестами.
 
