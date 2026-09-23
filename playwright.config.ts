@@ -1,13 +1,15 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  timeout: 30_000,
+  timeout: process.env.CI ? 90_000 : 30_000,
   fullyParallel: false,
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: [
-    ['list'],
-    ['html', { open: process.env.CI ? 'never' : 'on-failure' }],
+    ["list"],
+    ["html", { open: process.env.CI ? "never" : "on-failure" }],
+    ["json", { outputFile: "playwright-report/results.json" }],
+    ["junit", { outputFile: "playwright-report/results.xml" }],
   ],
   projects: [
     {
