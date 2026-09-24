@@ -4,7 +4,7 @@
 
 **Scope:** PomidorQA functional requirements (registration and sign-in, profile, skills, slots, catalog, booking, cancellation, "My meetings"). Out of scope: items in "Out of MVP scope".
 
-**Last updated:** 2026-09-23
+**Last updated:** 2026-09-24
 
 **Priorities:** P0 — blocks the main journey or booking integrity; P1 — affects functionality; P2 — behavior and display details.
 
@@ -14,16 +14,16 @@
 
 ## Coverage by level
 
-3 of 61 checks are automated: the guest catalog scenario at the E2E level.
+7 of 61 checks are automated: the guest catalog scenario and registration at the E2E level.
 
 | Level | Checks | Automated |
 |---|---|---|
 | unit | 3 | 0 |
 | API | 8 | 0 |
-| E2E | 50 | 3 |
-| **Total** | **61** | **3** |
+| E2E | 50 | 7 |
+| **Total** | **61** | **7** |
 
-Unit and API are almost empty in the table because those checks are still needed, and because there is no access to the PomidorQA source code or its internal API: we test a black box on the live environment. Without the product code, domain functions cannot be called directly, and the server contract cannot be covered honestly with a request to the real API. The `unit` and `API` values in the "Level" column therefore stay *planned*: that is the cheaper place to catch a defect if the code ever becomes available. For now, those checks are covered from the outside through E2E. Practice specs in `tests/unit` and `tests/api` hit local mocks in `pyramid-mocks/`, not the product. They do not count as coverage in this matrix (see the `API (mock)` rule below).
+Unit and API are almost empty in the table because those checks are still needed, and because there is no access to the PomidorQA source code or its internal API: we test a black box on the live environment. Without the product code, domain functions cannot be called directly, and the server contract cannot be covered honestly with a request to the real API. The `unit` and `API` values in the "Level" column therefore stay *planned*: that is the cheaper place to catch a defect if the code ever becomes available. For now, those checks are covered from the outside through E2E. Practice specs in `tests/unit` and `tests/api` hit local mocks in `pyramid-mocks/`, not the product. They do not count as coverage in this matrix (see the `API (mock)` and `unit (mock)` rule below).
 
 ---
 
@@ -39,15 +39,15 @@ Unit and API are almost empty in the table because those checks are still needed
 
 | ID | Check | Requirement | Priority | Level | Automated test |
 |---|---|---|---|---|---|
-| TC-AUTH-01 | Registration with a name, email, and password creates an account | §4 | P0 | E2E | — |
-| TC-AUTH-02 | Registration fails when any required field is empty | §4 | P0 | E2E | — |
-| TC-AUTH-03 | A password shorter than 8 characters is rejected | §4 | P0 | unit | — |
-| TC-AUTH-04 | A password of exactly 8 characters is accepted (boundary value) | §4 | P1 | unit | — |
-| TC-AUTH-05 | After registration, a profile exists with the name from the form and time zone `Europe/Moscow` | §4 | P1 | E2E | — |
+| TC-AUTH-01 | Registration with a name, email, and password creates an account | §4 | P0 | E2E | [register.spec.ts](tests/e2e/register.spec.ts) |
+| TC-AUTH-02 | Registration fails when any required field is empty | §4 | P0 | E2E | [register.spec.ts](tests/e2e/register.spec.ts) |
+| TC-AUTH-03 | A password shorter than 8 characters is rejected | §4 | P0 | unit (mock) | [password.spec.ts](tests/unit/password.spec.ts) |
+| TC-AUTH-04 | A password of exactly 8 characters is accepted (boundary value) | §4 | P1 | unit (mock) | [password.spec.ts](tests/unit/password.spec.ts) |
+| TC-AUTH-05 | After registration, a profile exists with the name from the form and time zone `Europe/Moscow` | §4 | P1 | E2E | [register.spec.ts](tests/e2e/register.spec.ts) |
 | TC-AUTH-06 | Sign-in with a valid email and password succeeds | §4 | P0 | E2E | — |
 | TC-AUTH-07 | Sign-in with a valid email and an invalid password shows an error that does not reveal the cause | §4 | P0 | E2E | — |
 | TC-AUTH-08 | Sign-in with a non-existent email shows exactly the same error text | §4 | P0 | E2E | — |
-| TC-AUTH-09 | Registration with an arbitrary email does not require email confirmation or an invite code | §14 | P1 | E2E | — |
+| TC-AUTH-09 | Registration with an arbitrary email does not require email confirmation or an invite code | §14 | P1 | E2E | [register.spec.ts](tests/e2e/register.spec.ts) |
 
 ## Profile (§5, §14)
 
@@ -151,5 +151,5 @@ Unit and API are almost empty in the table because those checks are still needed
 2. One automated test may cover several rows. Repeat the link on each of them.
 3. For a new requirement in [`requirements_en.md`](requirements_en.md), add a row with status `—` so the gap stays visible.
 4. The level is set in the "Level" column for every check, not only for automated ones: one value from `unit`, `API`, or `E2E`. If a check is automated at a different level than planned, change the value when the link is added.
-5. An automated test that hits a local mock server rather than the live environment is marked `API (mock)`. Otherwise the matrix would claim the product contract is verified when only the practice implementation was checked.
+5. An automated test that hits a local mock server rather than the live environment is marked `API (mock)`, and a unit test of a practice function from `pyramid-mocks/` is marked `unit (mock)`. Otherwise the matrix would claim the product is verified when only the practice implementation was checked. Such rows are not counted as automated in "Coverage by level".
 6. Recalculate the "Coverage by level" table whenever the row set changes or a new automated test appears.
