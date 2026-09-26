@@ -20,8 +20,8 @@
 |---|---|---|
 | unit | 3 | 0 |
 | API | 8 | 0 |
-| E2E | 50 | 7 |
-| **Total** | **61** | **7** |
+| E2E | 50 | 10 |
+| **Total** | **61** | **10** |
 
 Unit and API are almost empty in the table because those checks are still needed, and because there is no access to the PomidorQA source code or its internal API: we test a black box on the live environment. Without the product code, domain functions cannot be called directly, and the server contract cannot be covered honestly with a request to the real API. The `unit` and `API` values in the "Level" column therefore stay *planned*: that is the cheaper place to catch a defect if the code ever becomes available. For now, those checks are covered from the outside through E2E. Practice specs in `tests/unit` and `tests/api` hit local mocks in `pyramid-mocks/`, not the product. They do not count as coverage in this matrix (see the `API (mock)` and `unit (mock)` rule below).
 
@@ -44,9 +44,9 @@ Unit and API are almost empty in the table because those checks are still needed
 | TC-AUTH-03 | A password shorter than 8 characters is rejected | §4 | P0 | unit (mock) | [password.spec.ts](tests/unit/password.spec.ts) |
 | TC-AUTH-04 | A password of exactly 8 characters is accepted (boundary value) | §4 | P1 | unit (mock) | [password.spec.ts](tests/unit/password.spec.ts) |
 | TC-AUTH-05 | After registration, a profile exists with the name from the form and time zone `Europe/Moscow` | §4 | P1 | E2E | [register.spec.ts](tests/e2e/register.spec.ts) |
-| TC-AUTH-06 | Sign-in with a valid email and password succeeds | §4 | P0 | E2E | — |
-| TC-AUTH-07 | Sign-in with a valid email and an invalid password shows an error that does not reveal the cause | §4 | P0 | E2E | — |
-| TC-AUTH-08 | Sign-in with a non-existent email shows exactly the same error text | §4 | P0 | E2E | — |
+| TC-AUTH-06 | Sign-in with a valid email and password succeeds | §4 | P0 | E2E | [login.spec.ts](tests/e2e/login.spec.ts) |
+| TC-AUTH-07 | Sign-in with a valid email and an invalid password shows an error that does not reveal the cause | §4 | P0 | E2E | [login.spec.ts](tests/e2e/login.spec.ts) |
+| TC-AUTH-08 | Sign-in with a non-existent email shows an error that does not reveal the cause | §4 | P0 | E2E | [login.spec.ts](tests/e2e/login.spec.ts) |
 | TC-AUTH-09 | Registration with an arbitrary email does not require email confirmation or an invite code | §14 | P1 | E2E | [register.spec.ts](tests/e2e/register.spec.ts) |
 
 ## Profile (§5, §14)
