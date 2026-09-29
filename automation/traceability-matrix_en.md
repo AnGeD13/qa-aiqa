@@ -4,7 +4,7 @@
 
 **Scope:** PomidorQA functional requirements (registration and sign-in, profile, skills, slots, catalog, booking, cancellation, "My meetings"). Out of scope: items in "Out of MVP scope".
 
-**Last updated:** 2026-09-24
+**Last updated:** 2026-09-29
 
 **Priorities:** P0 — blocks the main journey or booking integrity; P1 — affects functionality; P2 — behavior and display details.
 
@@ -14,14 +14,14 @@
 
 ## Coverage by level
 
-7 of 61 checks are automated: the guest catalog scenario and registration at the E2E level.
+16 of 61 checks are automated: the guest catalog, registration, sign-in, and profile fields at the E2E level.
 
 | Level | Checks | Automated |
 |---|---|---|
 | unit | 3 | 0 |
 | API | 8 | 0 |
-| E2E | 50 | 10 |
-| **Total** | **61** | **10** |
+| E2E | 50 | 16 |
+| **Total** | **61** | **16** |
 
 Unit and API are almost empty in the table because those checks are still needed, and because there is no access to the PomidorQA source code or its internal API: we test a black box on the live environment. Without the product code, domain functions cannot be called directly, and the server contract cannot be covered honestly with a request to the real API. The `unit` and `API` values in the "Level" column therefore stay *planned*: that is the cheaper place to catch a defect if the code ever becomes available. For now, those checks are covered from the outside through E2E. Practice specs in `tests/unit` and `tests/api` hit local mocks in `pyramid-mocks/`, not the product. They do not count as coverage in this matrix (see the `API (mock)` and `unit (mock)` rule below).
 
@@ -53,12 +53,12 @@ Unit and API are almost empty in the table because those checks are still needed
 
 | ID | Check | Requirement | Priority | Level | Automated test |
 |---|---|---|---|---|---|
-| TC-PROF-01 | A changed name is saved and remains after a page reload | §5 | P0 | E2E | — |
-| TC-PROF-02 | An empty name cannot be saved — the field is required | §5 | P0 | E2E | — |
-| TC-PROF-03 | Telegram is saved, and the field stays optional | §5 | P1 | E2E | — |
-| TC-PROF-04 | The "about" description is saved, and the field stays optional | §5 | P1 | E2E | — |
-| TC-PROF-05 | A time zone is selected from the list and saved | §5 | P0 | E2E | — |
-| TC-PROF-06 | The time zone list includes all ten values from the requirements | §14 | P1 | E2E | — |
+| TC-PROF-01 | A changed name is saved and remains after a page reload | §5 | P0 | E2E | [profile.spec.ts](tests/e2e/profile.spec.ts) |
+| TC-PROF-02 | An empty name cannot be saved — the field is required | §5 | P0 | E2E | [profile.spec.ts](tests/e2e/profile.spec.ts) |
+| TC-PROF-03 | Telegram is saved, and the field stays optional | §5 | P1 | E2E | [profile.spec.ts](tests/e2e/profile.spec.ts) |
+| TC-PROF-04 | The "about" description is saved, and the field stays optional | §5 | P1 | E2E | [profile.spec.ts](tests/e2e/profile.spec.ts) |
+| TC-PROF-05 | A time zone is selected from the list and saved | §5 | P0 | E2E | [profile.spec.ts](tests/e2e/profile.spec.ts) |
+| TC-PROF-06 | The time zone list includes all ten values from the requirements | §14 | P1 | E2E | [profile.spec.ts](tests/e2e/profile.spec.ts) |
 | TC-PROF-07 | Slot time is displayed in the slot owner's time zone for everyone viewing it | §5 | P1 | E2E | — |
 | TC-PROF-08 | A participant's profile is visible to other participants in the catalog and on their page | §5 | P1 | E2E | — |
 
