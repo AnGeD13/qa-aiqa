@@ -7,6 +7,7 @@ export class ProfilePage {
   readonly profileNameInput: Locator;
   readonly profileTelegramInput: Locator;
   readonly profileTimezoneSelect: Locator;
+  readonly profileTimezoneOptions: Locator;
   readonly profileBioInput: Locator;
   readonly profileSaveButton: Locator;
 
@@ -23,6 +24,7 @@ export class ProfilePage {
     this.profileNameInput = page.getByLabel("Имя");
     this.profileTelegramInput = page.getByLabel("Telegram");
     this.profileTimezoneSelect = page.getByLabel("Часовой пояс");
+    this.profileTimezoneOptions = this.profileTimezoneSelect.locator("option");
     this.profileBioInput = page.getByLabel("О себе");
     this.profileSaveButton = page.getByRole("button", { name: "Сохранить" });
 
@@ -43,6 +45,10 @@ export class ProfilePage {
 
   async reload() {
     await this.page.reload();
+  }
+
+  async submitProfile() {
+    await this.profileSaveButton.click();
   }
 
   async saveProfile() {
@@ -67,8 +73,20 @@ export class ProfilePage {
     await this.profileTelegramInput.fill(newTelegram);
   }
 
+  async clearName() {
+    await this.profileNameInput.clear();
+  }
+
+  async clearTelegram() {
+    await this.profileTelegramInput.clear();
+  }
+
   async fillBio(newBio: string) {
     await this.profileBioInput.fill(newBio);
+  }
+
+  async clearBio() {
+    await this.profileBioInput.clear();
   }
 
   async changeTimezone(newTimezone: string) {
